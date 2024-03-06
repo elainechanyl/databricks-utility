@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "databricks-utility"
+version = "0.1.0"
+description = "A tool to perform actions in Databricks workspace and SQL warehouse"
+authors = ["Elaine Chan <elaine.chan@itv.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aws-secretsmanager-caching = "*"
+databricks-sql = "*"
+databricks-sdk = "*"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
