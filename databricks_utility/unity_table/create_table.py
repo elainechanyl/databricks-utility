@@ -6,9 +6,9 @@ import botocore.session
 from aws_secretsmanager_caching import SecretCache, SecretCacheConfig
 
 
-class ExampleSQLConnection:
+class CreateTable:
 
-    def __init__(self, domain, environment):
+    def __init__(self, domain, environment, data_product, table_name):
 
         databricks_host = f"itv-{domain}-domain-{environment}.cloud.databricks.com"
 
@@ -16,13 +16,13 @@ class ExampleSQLConnection:
         aws_sm_cache_config = SecretCacheConfig()
         aws_secret_cache = SecretCache(config=aws_sm_cache_config, client=aws_sm_client)
 
-        # Use automation admin token to auth
-        databricks_admin_token_secret_id = f"infra/{environment}/{environment}/databricks-platform-automation-token/"
-        databricks_admin_token = aws_secret_cache.get_secret_string(databricks_admin_token_secret_id)
+        # Use data product service principal token to auth
+        databricks_dp_token_secret_id = f"infra/{environment}/{environment}/{domain}/{data_product}-db-sp-token".replace("data-product", "dp")
+        databricks_dp_token = aws_secret_cache.get_secret_string(databricks_dp_token_secret_id)
 
         databricks_client = WorkspaceClient(
             host=f"https://{databricks_host}",
-            token=databricks_admin_token
+            token=databricks_dp_token
         )
 
         # Get default SQL warehouse ID
@@ -41,15 +41,14 @@ class ExampleSQLConnection:
         databricks_sql_connection = connect(
             server_hostname=databricks_host,
             http_path=databricks_sql_endpoint,
-            access_token=databricks_admin_token
+            access_token=databricks_dp_token
         )
 
         # Run queries
         databricks_sql_cursor = databricks_sql_connection.cursor()
-        databricks_sql_cursor.execute('select distinct grantor from `system`.`information_schema`.`table_privileges`')
+        databricks_sql_cursor.execute(f"CREATE TABLE {domain}.`{data_product}`.{table_name} (id INT, name STRING)")
         result = databricks_sql_cursor.fetchall()
-        for row in result:
-            print(row.grantor)
+        print(result)
 
         # Close the SQL warehouse connection
         databricks_sql_cursor.close()
