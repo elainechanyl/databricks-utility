@@ -3,7 +3,7 @@ import argparse
 
 from databricks_sql_connection_template import test_connect
 
-from unity_table import get_table_grant, create_table
+from unity_table import get_table_grant, create_table, delete_table
 
 # Retrieve domain and environment from aws-vault
 aws_vault_info = os.getenv('AWS_VAULT').split("-")
@@ -33,6 +33,11 @@ match utility:
     case "create_table":
         if data_product != "" and table_name != "":
             create_table.CreateTable(domain, environment, data_product, table_name)
+        else:
+            print("Undefined data product and/or table name.")
+    case "delete_table":
+        if data_product != "" and table_name != "":
+            delete_table.DeleteTable(domain, environment, data_product, table_name)
         else:
             print("Undefined data product and/or table name.")
     case _:

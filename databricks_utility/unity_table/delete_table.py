@@ -6,7 +6,7 @@ import botocore.session
 from aws_secretsmanager_caching import SecretCache, SecretCacheConfig
 
 
-class CreateTable:
+class DeleteTable:
 
     def __init__(self, domain, environment, data_product, table_name):
 
@@ -46,7 +46,7 @@ class CreateTable:
 
         # Run queries
         databricks_sql_cursor = databricks_sql_connection.cursor()
-        databricks_sql_cursor.execute(f"CREATE TABLE {domain}.`{data_product}`.{table_name}")
+        databricks_sql_cursor.execute(f"DROP TABLE {domain}.`{data_product}`.{table_name}")
         result = databricks_sql_cursor.fetchall()
         print(result)
 
