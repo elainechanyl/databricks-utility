@@ -6,6 +6,10 @@ import botocore.session
 from aws_secretsmanager_caching import SecretCache, SecretCacheConfig
 
 
+def get_databricks_host_url(domain, environment):
+    return f"itv-{domain}-domain-{environment}.cloud.databricks.com"
+
+
 def token_authentication(domain, environment, databricks_host, data_product, role):
     # get databricks token string from aws secrets manager
     aws_sm_client = botocore.session.get_session().create_client('secretsmanager')
