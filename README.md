@@ -22,19 +22,16 @@ export CURL_CA_BUNDLE="/usr/local/etc/ca-certificates/cert.pem"
 ## Quick start
 You must use AWS credential to run the utility.
 
-Standalone run example:
+Example:
 ```
-aws-vault exec bar-dev-root -- python databricks_utility/__main__.py dummy bar dev
-```
-
-You can run it with minimal arguments - utility name only (without domain and environment specified). In this case, domain and environment information will be retrieved from the environment variables `AWS_VAULT`
-```
-aws-vault exec bar-dev-root -- python databricks_utility/__main__.py {utility}
+aws-vault exec bar-dev-root -- poetry run python databricks_utility/__main__.py dummy bar dev test-cdktf-data-product
 ```
 
 Utility names
 
-| Utility | Descriptions                                                                                                                          |
-|---------|---------------------------------------------------------------------------------------------------------------------------------------|
-| dummy   | For testing connection to Databricks workspace and SQL warehouse with admin token. You can also use it as a template for development. |
-|         |                                                                                                                                       |
+| Utility               | Descriptions                                                                                                                          |
+|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| dummy                 | For testing connection to Databricks workspace and SQL warehouse with admin token. You can also use it as a template for development. |
+| create_table          | Create Databricks unity table without column defined                                                                                  |
+| delete_table          | Delete Databricks unity table                                                                                                         |
+| get_table_permissions | Get the permissions granted to the Databricks unity table                                                                             |
