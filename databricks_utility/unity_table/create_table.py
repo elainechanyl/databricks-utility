@@ -46,7 +46,8 @@ class CreateTable:
 
         # Run queries
         databricks_sql_cursor = databricks_sql_connection.cursor()
-        databricks_sql_cursor.execute(f"CREATE TABLE {domain}.`{data_product}`.{table_name}")
+        databricks_sql_cursor.execute(f"CREATE TABLE {domain}.`{data_product}`.`{table_name}`")
+        # databricks_sql_cursor.execute(f"CREATE VIEW {domain}.`{data_product}`.`{table_name}` AS SELECT \"Hello World\"")
         result = databricks_sql_cursor.fetchall()
         print(result)
 

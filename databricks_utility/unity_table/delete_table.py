@@ -47,6 +47,7 @@ class DeleteTable:
         # Run queries
         databricks_sql_cursor = databricks_sql_connection.cursor()
         databricks_sql_cursor.execute(f"DROP TABLE {domain}.`{data_product}`.{table_name}")
+        # databricks_sql_cursor.execute(f"DROP VIEW {domain}.`{data_product}`.{table_name}")
         result = databricks_sql_cursor.fetchall()
         print(result)
 
