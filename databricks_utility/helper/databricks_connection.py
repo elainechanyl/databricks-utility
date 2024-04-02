@@ -1,4 +1,4 @@
-from databricks.sdk import WorkspaceClient
+from databricks.sdk import WorkspaceClient, AccountClient
 from databricks.sql import connect
 
 import botocore
@@ -32,6 +32,26 @@ def token_authentication(domain, environment, databricks_host, data_product, rol
     )
 
     return databricks_token, databricks_client
+
+
+def account_authentication(environment):
+    # get databricks token string from aws secrets manager
+    aws_sm_client = botocore.session.get_session().create_client('secretsmanager')
+    aws_sm_cache_config = SecretCacheConfig()
+    aws_secret_cache = SecretCache(config=aws_sm_cache_config, client=aws_sm_client)
+
+    databricks_account_id = aws_secret_cache.get_secret_string(f"{environment}/databricks-id/")
+    databricks_username = aws_secret_cache.get_secret_string(f"{environment}/databricks-username/")
+    databricks_password = aws_secret_cache.get_secret_string(f"{environment}/databricks-pw/")
+
+    databricks_account_client = AccountClient(
+        host="https://accounts.cloud.databricks.com",
+        account_id=databricks_account_id,
+        username=databricks_username,
+        password=databricks_password,
+    )
+
+    return databricks_account_client
 
 
 def sql_warehouse_connection(domain, databricks_host, databricks_token, databricks_client, warehouse_type):
