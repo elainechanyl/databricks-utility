@@ -2,7 +2,7 @@ import argparse
 
 from databricks_sql_connection_template import test_connect
 from unity_table import get_table_grant, create_table, delete_table
-from identity import get_service_principal_id
+from identity import get_service_principal_id, service_principal_id_to_name
 from sql_statement import sql
 
 # Parse arguments
@@ -40,6 +40,8 @@ match utility:
             print("Undefined table name.")
     case "get_sp_id":
         get_service_principal_id.GetSpId(environment, data_product)
+    case "get_sp_name":
+        service_principal_id_to_name.GetSpName(environment, data_product)
     case "sql_statement":
         if other_argument != "":
             sql.SqlByDataProductSp(domain, environment, data_product, other_argument)

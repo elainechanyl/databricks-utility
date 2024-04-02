@@ -29,6 +29,7 @@ aws-vault exec bar-dev-root -- poetry run python databricks_utility/__main__.py 
 aws-vault exec bar-dev-root -- poetry run python databricks_utility/__main__.py delete_table bar dev test-cdktf-data-product test_table
 aws-vault exec bar-dev-root -- poetry run python databricks_utility/__main__.py get_table_permissions bar dev test-cdktf-data-product test_table
 aws-vault exec bar-dev-root -- poetry run python databricks_utility/__main__.py get_sp_id bar dev test-cdktf-data-product
+aws-vault exec bar-dev-root -- poetry run python databricks_utility/__main__.py get_sp_name bar dev 9c110197-4642-4c86-8264-a33a11dc7d4a
 aws-vault exec bar-dev-root -- poetry run python databricks_utility/__main__.py sql_statement bar dev test-cdktf-data-product 'SELECT "Hello World"'
 ```
 
@@ -40,7 +41,8 @@ Utility names
 | create_table          | Create Databricks unity table without column defined                                                                                  |
 | delete_table          | Delete Databricks unity table                                                                                                         |
 | get_table_permissions | Get the permissions granted to the Databricks unity table                                                                             |
-| get_sp_id             | Get data product service principal ID                                                                                                 |
+| get_sp_id             | Get data product service principal application ID                                                                                     |
+| get_sp_name           | Get data product service principal name from application ID                                                                           |
 | sql_statement         | Run SQL statement by data product service principal                                                                                   |
 
 ## Development

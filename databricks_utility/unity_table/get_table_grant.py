@@ -12,4 +12,6 @@ class GetTableGrant:
 
         table_full_name = f"{domain}.{data_product}.{table_name}"
         grants = databricks_client.grants.get_effective(securable_type=catalog.SecurableType.TABLE, full_name=table_full_name)
-        print(grants.privilege_assignments)
+
+        for permission in grants.privilege_assignments:
+            print(permission)

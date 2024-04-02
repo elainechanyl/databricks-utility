@@ -10,5 +10,5 @@ class GetSpId:
         sp_filter = f"displayName eq {sp_name}"
         sp_id_list = databricks_account_client.service_principals.list(filter=sp_filter)
 
-        for sp_id in  sp_id_list:
+        for sp_id in sp_id_list:
             print(sp_id)
