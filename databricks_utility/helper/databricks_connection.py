@@ -16,11 +16,13 @@ def token_authentication(domain, environment, databricks_host, data_product, rol
     aws_sm_cache_config = SecretCacheConfig()
     aws_secret_cache = SecretCache(config=aws_sm_cache_config, client=aws_sm_client)
 
+    ecosystem = "prd" if environment == "uat" else environment
+
     match role:
         case "admin":
-            token_secret_id = f"infra/{environment}/{environment}/databricks-platform-automation-token/"
+            token_secret_id = f"infra/{ecosystem}/{environment}/databricks-platform-automation-token/"
         case "dataproduct":
-            token_secret_id = f"infra/{environment}/{environment}/{domain}/{data_product}-db-sp-token".replace("data-product", "dp")
+            token_secret_id = f"infra/{ecosystem}/{environment}/{domain}/{data_product}-db-sp-token".replace("data-product", "dp")
         case _:
             raise Exception(f"Incorrect token role [{role}]. Choose from [admin, dataproduct]")
     databricks_token = aws_secret_cache.get_secret_string(token_secret_id)

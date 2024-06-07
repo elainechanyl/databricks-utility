@@ -5,10 +5,10 @@ class DeleteTable:
 
     def __init__(self, domain, environment, data_product, table_name):
         databricks_host = get_databricks_host_url(domain, environment)
-        token_role = "dataproduct"
+        token_role = "admin"
         databricks_token, databricks_client = token_authentication(domain, environment, databricks_host, data_product, token_role)
 
-        warehouse_type = "default"
+        warehouse_type = "serverless"
         databricks_sql_connection = sql_warehouse_connection(domain, databricks_host, databricks_token, databricks_client, warehouse_type)
 
         # Run queries
