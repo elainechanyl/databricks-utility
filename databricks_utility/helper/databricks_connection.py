@@ -7,7 +7,10 @@ from aws_secretsmanager_caching import SecretCache, SecretCacheConfig
 
 
 def get_databricks_host_url(domain, environment):
-    return f"itv-{domain}-domain-{environment}.cloud.databricks.com"
+    databricks_url = f"itv-{domain}-domain-{environment}.cloud.databricks.com"
+    if domain == "symphony":
+        databricks_url = f"itv-{domain}-{environment}.cloud.databricks.com"
+    return databricks_url
 
 
 def token_authentication(domain, environment, databricks_host, data_product, role):
@@ -65,9 +68,9 @@ def sql_warehouse_connection(domain, databricks_host, databricks_token, databric
         case "default":
             warehouse_name = f"Default {domain} SQL warehouse"
         case "serverless":
-            warehouse_name = f"Serverless {domain} SQL warehouse"
+            warehouse_name = f"Serverless {domain} SQL Warehouse"
         case _:
-            warehouse_name = f"Default {domain} SQL warehouse"
+            warehouse_name = f"Serverless {domain} SQL Warehouse"
     sql_warehouse_id = ""
     for warehouse in sql_warehouses:
         if warehouse.name == warehouse_name:

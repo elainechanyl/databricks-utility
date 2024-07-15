@@ -8,7 +8,7 @@ class CreateTable:
         token_role = "dataproduct"
         databricks_token, databricks_client = token_authentication(domain, environment, databricks_host, data_product, token_role)
 
-        warehouse_type = "default"
+        warehouse_type = "serverless"
         databricks_sql_connection = sql_warehouse_connection(domain, databricks_host, databricks_token, databricks_client, warehouse_type)
 
         # Run queries
