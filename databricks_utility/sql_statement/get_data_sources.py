@@ -3,10 +3,10 @@ from databricks_utility.helper.databricks_connection import get_databricks_host_
 
 class GetAllDataSources:
 
-    def __init__(self, domain, environment, data_product):
+    def __init__(self, domain, environment):
         databricks_host = get_databricks_host_url(domain, environment)
         token_role = "admin"
-        _, databricks_client = token_authentication(domain, environment, databricks_host, data_product, token_role)
+        _, databricks_client = token_authentication(domain, environment, databricks_host, token_role)
 
         data_sources = databricks_client.data_sources.list()
 

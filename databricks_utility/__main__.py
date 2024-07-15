@@ -29,9 +29,8 @@ match utility:
         table_name = args.other_argument
         get_table_grant.GetTableGrant(domain, environment, data_product, table_name)
     case "get_external_location_permissions":
-        data_product = args.instance
-        external_location_name = args.other_argument
-        get_external_location_grant.GetExternalLocationGrant(domain, environment, data_product, external_location_name)
+        external_location_name = args.instance
+        get_external_location_grant.GetExternalLocationGrant(domain, environment, external_location_name)
     case "create_table":
         data_product = args.instance
         table_name = args.other_argument
@@ -58,7 +57,7 @@ match utility:
         else:
             print("Undefined SQL statement.")
     case "get_data_source":
-        data_product = args.instance
-        get_data_sources.GetAllDataSources(domain, environment, data_product)
+        _ = args.instance
+        get_data_sources.GetAllDataSources(domain, environment)
     case _:
         print("Undefined utility.")

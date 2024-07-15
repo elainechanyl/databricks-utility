@@ -13,7 +13,7 @@ def get_databricks_host_url(domain, environment):
     return databricks_url
 
 
-def token_authentication(domain, environment, databricks_host, data_product, role):
+def token_authentication(domain, environment, databricks_host, role):
     # get databricks token string from aws secrets manager
     aws_sm_client = botocore.session.get_session().create_client('secretsmanager')
     aws_sm_cache_config = SecretCacheConfig()
@@ -21,13 +21,10 @@ def token_authentication(domain, environment, databricks_host, data_product, rol
 
     ecosystem = "prd" if environment == "uat" else environment
 
-    match role:
-        case "admin":
-            token_secret_id = f"infra/{ecosystem}/{environment}/databricks-platform-automation-token/"
-        case "dataproduct":
-            token_secret_id = f"infra/{ecosystem}/{environment}/{domain}/{data_product}-db-sp-token".replace("data-product", "dp")
-        case _:
-            raise Exception(f"Incorrect token role [{role}]. Choose from [admin, dataproduct]")
+    if role == "admin":
+        token_secret_id = f"infra/{ecosystem}/{environment}/databricks-platform-automation-token/"
+    else:
+        token_secret_id = f"infra/{ecosystem}/{environment}/{domain}/{role}-db-sp-token".replace("data-product", "dp")
     databricks_token = aws_secret_cache.get_secret_string(token_secret_id)
 
     # databricks workspace authentication
